@@ -1,6 +1,7 @@
 
 import { z } from "zod";
 import { airtable } from "./airtable";
+import { DateTime } from "luxon";
 
 const postSchema = z.object({
   ["Title"]: z.string(),
@@ -12,7 +13,6 @@ const postSchema = z.object({
 export async function getRecords() {
   const base = airtable.base('appWKgDXDQPkk7xr0');
   const posts = await base('Posts').select().all();
-
   return posts
     .map((post) => {
       const fields = postSchema.parse(post.fields);
@@ -21,7 +21,9 @@ export async function getRecords() {
         title: fields.Title,
         content: fields.Content,
         lead: fields.Lead,
-        date: fields["Date of post"],
+        date: DateTime
+          .fromFormat(fields["Date of post"], "yyyy-MM-dd")
+          .toFormat("dd/MM/yyyy"),
       }
     });
 }
