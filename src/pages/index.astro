@@ -1,12 +1,11 @@
 ---
 import { getRecords } from "@/utils/get-records";
-import { DateTime } from "luxon";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EntriesOne from "@/components/entries/EntriesOne.astro";
 import Hero from "@/components/landing/Hero.astro";
 import Cta from "@/components/global/Cta.astro";
 const allPosts = await getRecords();
-const tags = []; // [...new Set(allPosts.map((post) => post.data.tags).flat())];
+const tags = [] as string[]; // [...new Set(allPosts.map((post) => post.data.tags).flat())];
 ---
 
 <BaseLayout>
@@ -33,7 +32,6 @@ const tags = []; // [...new Set(allPosts.map((post) => post.data.tags).flat())];
                 url={"/posts/"}
                 title={post.title}
                 description={post.lead}
-                alt={post.title}
                 pubDate={post.date}
                 author={"Daniela"}
                 image={"./"}
